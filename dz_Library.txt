@@ -1,0 +1,25 @@
+--1
+SELECT        dbo.Teacher.first_name, dbo.Teacher.last_name, dbo.Book.name
+FROM            dbo.Teacher INNER JOIN
+                         dbo.T_Cards ON dbo.Teacher.id = dbo.T_Cards.id_teacher INNER JOIN
+                         dbo.Book ON dbo.T_Cards.id_book = dbo.Book.id
+
+--2
+SELECT        dbo.Student.first_name, dbo.Student.last_name
+FROM            dbo.Student INNER JOIN
+                         dbo.S_Cards ON dbo.Student.id = dbo.S_Cards.id_student
+WHERE        (dbo.S_Cards.date_out IS NULL)
+
+--3
+SELECT  TOP 1 l.first_name AS name, l.last_name AS last_name, COUNT(T.id_book) AS count
+FROM T_Cards T
+JOIN Librarian l ON T.id_librarian = l.id
+WHERE T.date_out IS NOT NULL
+GROUP BY l.first_name, l.last_name
+
+--4
+SELECT  TOP 1 l.first_name AS name, l.last_name AS last_name, COUNT(T.id_book) AS count
+FROM T_Cards T
+JOIN Librarian l ON T.id_librarian = l.id
+WHERE T.date_in IS NOT NULL
+GROUP BY l.first_name, l.last_name
